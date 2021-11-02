@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>upload</title>
+</head>
+
+<script>
+  function request(url) {
+    console.log(url);
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
+    return false;
+  }
+</script>
+
+
+<body>
+  <form method="post" action="http://localhost:8000/upload" enctype="multipart/form-data">
+    <input type="text" name="filename">
+    <input type="file" name="chunk">
+    <input type="submit">
+  </form>
+
+  <form onsubmit="return request(`http://localhost:8000/getTest`)">
+    <input type="submit">
+  </form>
+
+</body>
+
+</html>

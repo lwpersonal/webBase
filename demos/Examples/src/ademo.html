@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="referrer" content="no-referrer">
+  <title>Title</title>
+  <style>
+    img {
+      background-color: black;
+      background-size: 100%;
+      display: block;
+    }
+    .fabudating {
+      width: 340px;
+      height: 246px;
+    }
+    .yicheng {
+      width: 210px;
+      height: 120px;
+    }
+    .jiabing {
+      width: 86px;
+      height: 178px;
+    }
+    .touhao {
+      width: 351px;
+      height: 226px;
+    }
+    .baoming {
+      width: 198px;
+      height: 132px;
+    }
+    .zhibo {
+      width: 318px;
+      height: 211px;
+    }
+    .zhuluntan {
+      width: 441px;
+      height: 384px;
+    }
+    .zhutiyanjiang {
+      width: 337px;
+      height: 266px;
+    }
+    .et {
+      width: 300px;
+      height: 300px;
+    }
+    .background {
+      width: 1140px;
+      height: 794px;
+    }
+    .backgroundh5 {
+      width: 375px;
+      height: 830px;
+    }
+    .handsonlab {
+      width: 311px;
+      height: 200px;
+    }
+    .kaiping {
+      width: 1440px;
+      height: 794px;
+    }
+    .kaipingh5 {
+      width: 562px;
+      height: 1218px;
+    }
+  </style>
+</head>
+<body>
+<h5>PC开屏</h5>
+<img src="" alt="" class="kaiping">
+
+<h6>发布大厅</h6>
+<img src="" alt="" class="fabudating">
+
+<h6>活动议程序列帧</h6>
+<img src="" alt="" class="yicheng">
+
+<h6>嘉宾动效序列</h6>
+<img src="" alt="" class="jiabing">
+
+<h6>头号云话题序列帧</h6>
+<img src="" alt="" class="touhao">
+
+<h6>预约报名序列帧</h6>
+<img src="" alt="" class="baoming">
+
+<h6>直播大厅</h6>
+<img src="" alt="" class="zhibo">
+
+<h6>主论坛</h6>
+<img src="" alt="" class="zhuluntan">
+
+<h6>专题演讲序列帧</h6>
+<img src="" alt="" class="zhutiyanjiang">
+
+<h6>ET小人</h6>
+<img src="" alt="" class="et">
+
+<h6>ET路线无人机动效（30秒每帧12，共360帧）</h6>
+<img src="" alt="" class="background">
+
+<h6>Hands on lab</h6>
+<img src="" alt="" class="handsonlab">
+
+<hr>
+
+<h5>H5开屏</h5>
+<img src="" alt="" class="kaipingh5">
+
+<h6>H5 ET路线无人机动效（30秒每帧12，共360帧）</h6>
+<img src="" alt="" class="backgroundh5">
+
+
+<!-- <h6>test1</h6>
+<img src="" alt="" class="test1"> -->
+<script>
+  /**
+   * 说明：
+   * 主要是采用 requestAnimateFrame 来不断修改img的src属性（如果不是img标签自动通过background-img来切换）
+   * 目前采用background方式在Firefox和Safari下会有问题，尽量用img标签
+   * 因为需要把图片转换成Base64的Data URL，采用Ajax方式请求图片数据，所以要自行解决解决图片地址的跨域问题
+   * 因为图片异步预加载的量可能会很大，需要控制并发数，默认并发数控制为5，勿随意修改CONCURRENCY_AJAX变量
+   */
+
+  // 上线后可以把这个关掉，不打印日志
+  var EDEN_DEBUG = 0;
+
+  // 全局Ajax异步的最高并发数
+  var CONCURRENCY_AJAX = 5;
+
+  // 日志打印
+  var Logger = new (function () {
+    var log = function (args) {
+      if (EDEN_DEBUG) {
+        Function.apply.call(console.log, console, args);
+      }
+    };
+
+    this.info = function () {
+      var args = Array.prototype.slice.call(arguments);
+      args.unshift('%c INFO ', 'background:#5bc0de;color:white');
+      log(args);
+    };
+
+    this.error = function () {
+      var args = Array.prototype.slice.call(arguments);
+      args.unshift('%c ERROR ', 'background:#d9534f;color:white');
+      log(args);
+    };
+
+    this.warning = function () {
+      var args = Array.prototype.slice.call(arguments);
+      args.unshift('%c WARNNING ', 'background:#f0ad4e;color:white');
+      log(args);
+    };
+
+    this.success = function () {
+      var args = Array.prototype.slice.call(arguments);
+      args.unshift('%c SUCCESS ', 'background:#5cb85c;color:white');
+      log(args);
+    };
+  });
+
+  // 工具
+  var Utils = {
+    uuid: function (prefix) {
+      function s4() {
+        return Math.floor((1 + Math.random()) * 0x10000)
+          .toString(16)
+          .substring(1);
+      }
+
+      var uuid = s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
+      if (typeof prefix != 'undefined') {
+        uuid = prefix + '-' + uuid;
+      }
+
+      return uuid;
+    }
+  };
+
+  /**
+   * 并发控制
+   *
+   * @param queueName
+   * @param taskHandle
+   * @param concurrency
+   * @constructor
+   */
+  var Queue = function (queueName, taskHandle, concurrency) {
+    if (typeof concurrency == 'undefined') concurrency = 4;
+
+    var taskProcessingNum = 0;
+    var queue = [];
+
+    var run = function () {
+      if (concurrency > 0 && taskProcessingNum >= concurrency) {
+        return false;
+      }
+
+      var task = queue.shift();
+      if (task) {
+        taskProcessingNum += 1;
+        Logger.info('Task run start:', task.uuid);
+
+        taskHandle(task, function () {
+          taskProcessingNum -= 1;
+          run();
+          Logger.success('Task run completed:', task.uuid);
+        });
+      }
+    };
+
+    this.push = function (task) {
+      task.uuid = 'task-' + queueName + '[' + Utils.uuid() + ']';
+      queue.push(task);
+
+      Logger.info('Task push ' + task.uuid, 'concurrency:', concurrency, task);
+
+      run();
+    };
+  };
+
+  /**
+   * 序列帧动画
+   *
+   * @param target DOM元素
+   * @param frameSequence 帧图片地址的数组
+   * @param initFrame 初始化或停止状态下停留在哪一帧？从数组的0计数，默认停留在首帧
+   * @param fps 每秒帧数，用于控制速度，默认是60
+   * @param loop 是否循环播放，默认循环
+   * @param allFrameLoadedCallback 一个序列帧全部加载完后的回调（可以用于首屏全部加载完后回掉去预加载其他动画帧，这样首屏动画会提前播放）
+   * @constructor
+   */
+  var SequenceAnimate = function (target, frameSequence, initFrame, fps, loop, allFrameLoadedCallback) {
+    if (typeof initFrame == 'undefined') initFrame = 0;
+    if (typeof fps == 'undefined') fps = 60;
+    if (typeof loop == 'undefined') loop = 1;
+
+
+    var isImageTag = target.tagName.toLocaleLowerCase() === 'img', // DOM是否IMG标签，如果是IMG就通过替换src属性来实现动画，否则通过background-img替换来实现，性能上建议img
+      isStopPlay = false, // 当前是否停止播放
+      isSupportRequestAnimationFrame = !!window.requestAnimationFrame, // 浏览器是否支持requestAnimationFrame，不支持就不支持动画
+      isAllFrameLoaded = false, // 所有帧是否已预加载完毕
+      frameLoadedCount = 0, // 帧序列中已经加载的帧个数
+      firstFrame = 0, // 第一帧
+      currentFrame = 0, // 当前帧
+      lastFrame = frameSequence.length, // 最后一帧
+      frameSequenceData = [], // 用于存储预加载后每一帧的Base64图片编码
+      requestAnimateID = 0, // requestAnimationFrame的标识符
+      fpsInterval, now, then, elapsed; // 这几个变量用于控制播放速度
+
+    var playFrame = function (frameIndex) {
+      if (isImageTag) {
+        target.src = frameSequenceData[frameIndex];
+      } else {
+        target.style.backgroundImage = 'url(' + frameSequenceData[frameIndex] + ')';
+      }
+    };
+
+    var run = function () {
+      if (!loop && currentFrame >= lastFrame) {
+        stop();
+        return false;
+      }
+
+      if (isStopPlay) {
+        cancelAnimationFrame(requestAnimateID);
+        playFrame(initFrame);
+        return false;
+      }
+
+      now = Date.now();
+      elapsed = now - then;
+
+      requestAnimateID = requestAnimationFrame(run);
+
+      if (elapsed > fpsInterval) {
+        then = now - (elapsed % fpsInterval);
+
+        if (isAllFrameLoaded) {
+          if (currentFrame >= lastFrame) {
+            currentFrame = firstFrame;
+          }
+          playFrame(currentFrame);
+          currentFrame++;
+        }
+      }
+    };
+
+    // ajax方式获取帧图片Base64编码的队列封装
+    var getBase64CodeQueue = new Queue('getBase64Code', function (task, queueCallback) {
+      var frameIndex = task.frameIndex,
+        callback = task.callback;
+
+      var xhr = new XMLHttpRequest();
+      // xhr.withCredentials = true;
+      xhr.onload = function () {
+        Logger.success('load frame done.');
+        var reader = new FileReader();
+        reader.onload = function () {
+          frameSequenceData[frameIndex] = reader.result;
+          frameLoadedCount += 1;
+          if (frameLoadedCount === frameSequence.length) {
+            isAllFrameLoaded = true; // 标记全部帧加载完毕
+            Logger.success('ALL FRAME LOADED.');
+            if (allFrameLoadedCallback instanceof Function) {
+              allFrameLoadedCallback();
+            }
+          }
+
+          if (callback instanceof Function) {
+            callback();
+          }
+
+          queueCallback();
+        };
+        reader.readAsDataURL(xhr.response);
+      };
+      xhr.open('GET', frameSequence[frameIndex]);
+      xhr.responseType = 'blob';
+      xhr.send();
+    }, CONCURRENCY_AJAX);
+
+    // 获取某一帧图片的Base64编码
+    var getBase64Code = function (frameIndex, callback) {
+      getBase64CodeQueue.push({
+        frameIndex: frameIndex,
+        callback: callback
+      });
+    };
+
+    // 初始化
+    var init = function () {
+      getBase64Code(initFrame, function () {
+        playFrame(initFrame); // 优先加载并显示初始化帧
+
+        // 其他帧预加载
+        if (isSupportRequestAnimationFrame) {
+          for (var i = 0; i < frameSequence.length; i++) {
+            if (i === initFrame) {
+              continue;
+            }
+            getBase64Code(i);
+          }
+        }
+      });
+    };
+    init();
+
+    this.start = function () {
+      if (!isSupportRequestAnimationFrame) {
+        return false;
+      }
+
+      isStopPlay = false;
+
+      // 对于不循环且已经播放完的重新start跳到第一帧
+      if (!loop && currentFrame === lastFrame) {
+        currentFrame = firstFrame;
+      }
+
+      fpsInterval = 1000 / fps;
+      then = Date.now();
+
+      run();
+    };
+
+    this.stop = function () {
+      isStopPlay = true;
+
+      cancelAnimationFrame(requestAnimateID);
+    };
+  };
+
+
+  /**
+   * 上面是动画核心代码，主要就关注最核心的方法SequenceAnimate就可以了
+   * 下面这些都是根据规则去初始化每幅动画的序列帧地址之类的演示，仅供参考
+  */
+  var sequenceUrlPrefix = 'https://cdn.damo.alibaba.com/fenghui2020/';
+
+  // 序列帧动画配置
+  var animateData = {
+    // 开屏
+    kaiping: {
+      config: {
+        frames: 203,
+        initFrame: 0,
+        fps: 60,
+        loop: false,
+        namePrefix: '开屏序列PC-jpg/首页4.0_0',
+        nameSuffix: '.jpg'
+      }
+    },
+    // 开屏H5
+    kaipingh5: {
+      config: {
+        frames: 156,
+        initFrame: 0,
+        fps: 60,
+        loop: false,
+        namePrefix: 'H5开屏序列/H5开屏 2_0',
+        nameSuffix: '.jpg'
+      }
+    },
+    // 发布大厅
+    fabudating: {
+      config: {
+        frames: 76,
+        initFrame: 0,
+        fps: 30,
+        loop: true,
+        namePrefix: '发布大厅/1_',
+        nameSuffix: '.png'
+      }
+    },
+    // 活动议程序列帧
+    yicheng: {
+      config: {
+        frames: 76,
+        initFrame: 0,
+        fps: 30,
+        loop: true,
+        namePrefix: '活动议程序列帧/1_',
+        nameSuffix: '.png'
+      }
+    },
+    // 嘉宾动效序列
+    jiabing: {
+      config: {
+        frames: 73,
+        initFrame: 0,
+        fps: 30,
+        loop: true,
+        namePrefix: '嘉宾动效序列/1_',
+        nameSuffix: '.png'
+      }
+    },
+    // 头号云话题序列帧
+    touhao: {
+      config: {
+        frames: 73,
+        initFrame: 18,
+        fps: 30,
+        loop: true,
+        namePrefix: '头号云话题序列帧/1_',
+        nameSuffix: '.png'
+      }
+    },
+    // 预约报名序列帧
+    baoming: {
+      config: {
+        frames: 76,
+        initFrame: 0,
+        fps: 30,
+        loop: true,
+        namePrefix: '预约参会/6_0',
+        nameSuffix: '.png'
+      }
+    },
+    // 直播大厅
+    zhibo: {
+      config: {
+        frames: 76,
+        initFrame: 0,
+        fps: 30,
+        loop: true,
+        namePrefix: '直播大厅/1_',
+        nameSuffix: '.png'
+      }
+    },
+    // 主论坛
+    zhuluntan: {
+      config: {
+        frames: 76,
+        initFrame: 0,
+        fps: 30,
+        loop: true,
+        namePrefix: '主论坛/1_',
+        nameSuffix: '.png'
+      }
+    },
+    // 专题演讲序列帧
+    zhutiyanjiang: {
+      config: {
+        frames: 76,
+        initFrame: 0,
+        fps: 30,
+        loop: true,
+        namePrefix: '专题演讲序列帧/1_',
+        nameSuffix: '.png'
+      }
+    },
+    // ET动画序列
+    et: {
+      config: {
+        frames: 405,
+        initFrame: 0,
+        fps: 30,
+        loop: true,
+        namePrefix: 'ET动画序列/1_',
+        nameSuffix: '.png'
+      }
+    },
+    // ET路线无人机动效（30秒每帧12，共360帧）
+    background: {
+      config: {
+        frames: 360,
+        initFrame: 0,
+        fps: 12,
+        loop: true,
+        namePrefix: 'ET路线无人机动效（30秒每帧12，共360帧）/背景_0',
+        nameSuffix: '.png'
+      }
+    },
+    // ET路线无人机动效（30秒每帧12，共360帧）
+    backgroundh5: {
+      config: {
+        frames: 106,
+        initFrame: 0,
+        fps: 12,
+        loop: true,
+        namePrefix: 'BJ_2/BJ_2_0',
+        nameSuffix: '.png'
+      }
+    },
+    // Hands on lab
+    handsonlab: {
+      config: {
+        frames: 76,
+        initFrame: 0,
+        fps: 30,
+        loop: true,
+        namePrefix: 'Hands on lab/1_',
+        nameSuffix: '.png'
+      }
+    },
+  };
+
+  
+  function init() {
+    // 初始化每幅动画
+    for (name in animateData) {
+      var config = animateData[name]['config'],
+        sequence = [],
+        target = document.querySelector('.' + name);
+
+      for (var i = 0; i < config.frames; i++) {
+        // 根据配置及命名规则生成每一帧的URL
+        sequence.push(sequenceUrlPrefix + config.namePrefix + new Array(5 - i.toString().length).join('0') + i + config.nameSuffix);
+      }
+      console.log('**** ', sequence)
+      animateData[name]['animate'] = new SequenceAnimate(target, sequence, config.initFrame, config.fps, config.loop);
+
+      // 事件触发
+      target.addEventListener('mouseover', function () {
+        animateData[this.className]['animate'].start();
+      });
+      target.addEventListener('mouseout', function () {
+        animateData[this.className]['animate'].stop();
+      });
+    }
+  }
+  init();
+
+  // var config = {
+  //     frames: 24,
+  //     initFrame: 0,
+  //     fps: 60,
+  //     loop: false
+  //   },
+  //   sequence = [
+  //   ],
+  //   target = document.querySelector('.test1');
+
+  // for (var i = 0; i < config.frames; i++) {
+  //   // 根据配置及命名规则生成每一帧的URL
+  //   sequence.push(sequenceUrlPrefix + config.namePrefix + new Array(5 - i.toString().length).join('0') + i + config.nameSuffix);
+  // }
+  // var test1 = new SequenceAnimate(target, sequence, config.initFrame, config.fps, config.loop);
+
+  // 事件触发
+  // target.addEventListener('mouseover', function () {
+  //   test1.start();
+  // });
+  // target.addEventListener('mouseout', function () {
+  //   test1.stop();
+  // });
+</script>
+</body>
+</html>

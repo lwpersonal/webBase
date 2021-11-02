@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    .js_demo_root {
+      line-height: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="js_demo_root" class="js_demo_root"></div>
+
+  <script src="./src/index.ts"></script>
+  <script>
+    const str = `
+
+/**
+ * 
+ *  nishakldh kjhdhsk .
+ * kdlsjl !
+ *
+ * */
+
+* {
+  transition: .8s all ease;
+}
+.animate-el-block {
+  line-height: 1.5;
+}
+.animate-el-code {
+  padding: 0 10px;
+}
+
+.animate-el-css-selector {
+  color: #555;
+}.animate-el-brackets-css {
+  color: #555;
+
+}
+
+.animate-el-attr-key {
+  color: #005cc5;
+}
+.animate-el-attr-val {
+  color: #905;
+}
+
+`;
+
+    const fn = new Func({
+      cursor: false,
+      el: '.js_demo_root',
+      sourceData: str,
+      // speed: 150,
+      // delay: 1000,
+      // delayVal: ['.', '!'],
+    });
+    fn.start();
+  </script>
+</body>
+
+</html>

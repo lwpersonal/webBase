@@ -1,0 +1,42 @@
+{
+  "name": "@wenjw/animate-layout",
+  "version": "0.0.1",
+  "description": "动画输出 html 结构",
+  "author": "wenjw <wenjiawei01@58.com>",
+  "homepage": "",
+  "license": "MIT",
+  "private": false,
+  "main": "lib/index.js",
+  "keywords": [
+    "ts",
+    "animate"
+  ],
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com:lwpersonal/WebBase.git"
+  },
+  "files": [
+    "lib"
+  ],
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org/"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview --port 9002",
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "publish": "npm publish --access public"
+  },
+  "dependencies": {
+    "typescript": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^16.9.6",
+    "vite": "^2.5.10"
+  }
+}

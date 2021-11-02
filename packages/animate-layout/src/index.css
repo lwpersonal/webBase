@@ -1,0 +1,4 @@
+.animate-el-input-posit::after {
+  content: '_';
+  display: inline-block;
+}

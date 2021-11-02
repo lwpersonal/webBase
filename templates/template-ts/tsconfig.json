@@ -1,0 +1,38 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "importHelpers": true,
+    "useDefineForClassFields": true,
+    "lib": ["ESNext"],
+    "allowJs": false,
+    "skipLibCheck": false,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "declaration": true,
+    "outDir": "./dist",
+    "emitDeclarationOnly": true,
+    "sourceMap": false,
+    "strictNullChecks": true,
+    "baseUrl": "./",
+    "paths": {
+      "@src/*": ["./src/*"]
+    }
+  },
+  "include": ["mock/**/*", "src/**/*", "config/**/*", "typings.d.ts"],
+  "exclude": [
+    "node_modules",
+    "lib",
+    "dist",
+    "typings",
+    "**/__test__",
+    "test",
+    "docs",
+    "tests"
+  ]
+}

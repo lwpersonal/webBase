@@ -1,0 +1,13 @@
+node_modules
+tmp
+test
+bugs
+docs
+support
+.github
+.editorconfig
+.eslintrc.yml
+.travis.yml
+.gitignore
+*.md
+commitlint.config.js

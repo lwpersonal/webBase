@@ -1,0 +1,47 @@
+{
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "lib": ["esnext"],
+    "moduleResolution": "Node",
+    "strict": true,
+    "allowJs": false,
+    "sourceMap": false,
+    "declaration": true,
+    "skipLibCheck": false,
+    "importHelpers": true,
+    "isolatedModules": true,
+    "esModuleInterop": false,
+    "strictNullChecks": true,
+    "resolveJsonModule": true,
+    "emitDeclarationOnly": true,
+    "useDefineForClassFields": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "paths": {
+      "@utils": ["./utils/index"],
+      "@utils/*": ["./utils/*"],
+      "@scripts/*": ["./scripts/*"]
+    }
+  },
+  "include": [
+    "mock/**/*",
+    "scripts/**/*",
+    "utils/**/*",
+    "config/**/*",
+    "typings.d.ts",
+    "index.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "lib",
+    "dist",
+    "typings",
+    "**/__test__",
+    "test",
+    "docs",
+    "tests"
+  ]
+}

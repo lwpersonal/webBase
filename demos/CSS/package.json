@@ -1,0 +1,47 @@
+{
+  "name": "@wenjw/demo",
+  "version": "0.0.3",
+  "description": "js demo",
+  "author": "wenjw <wenjiawei01@58.com>",
+  "homepage": "",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "keywords": [
+    "ts",
+    "demo"
+  ],
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com:lwpersonal/WebBase.git"
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "registry": "http://registry.npmjs.org/"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "serve": "vite preview --port 9002",
+    "test": "echo \"Error: run tests from root\" && exit 1",
+    "publish": "npm publish --access public"
+  },
+  "dependencies": {
+    "typescript": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^16.9.6",
+    "@typescript-eslint/eslint-plugin": "^4.31.2",
+    "@typescript-eslint/parser": "^4.31.2",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "prettier": "^2.4.1",
+    "vite": "^2.5.10"
+  }
+}

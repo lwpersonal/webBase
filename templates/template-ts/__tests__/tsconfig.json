@@ -1,0 +1,14 @@
+{
+  "include": ["."],
+  "compilerOptions": {
+    "target": "es2019",
+    "allowJs": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "baseUrl": ".",
+    "types": ["vite/client", "jest", "node"],
+    "paths": {
+      "@src/*": ["../src/*"]
+    }
+  }
+}
