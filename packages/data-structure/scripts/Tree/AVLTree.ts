@@ -23,19 +23,25 @@ export default class AVLTree<T> extends BinarySearchTree<T> {
       // 已经有相同的值
       return node;
     }
-    // TODO
-    // const balanceFactor = this.getNodeBalanceFactor(node);
-    // if (balanceFactor === BALANCE_FACTOR.UNBALANCED_RIGHT && node.right) {
-    //   const compareSta = compareFn(key, node.right.value);
-    //   if (compareSta === COMPARE_STA.BIGGER_THEN) {
-    //     node = this.rotationRRNode(node);
-    //   } else {
-    //     node = this.rotationLRNode(node);
-    //   }
-    // }
+    const balanceFactor = this.getNodeBalanceFactor(node);
+    if (balanceFactor === BALANCE_FACTOR.UNBALANCED_RIGHT && node.right) {
+      const compareSta = compareFn(key, node.right.value);
+      if (compareSta === COMPARE_STA.BIGGER_THEN) {
+        node = this.rotationRRNode(node);
+      } else {
+        return this.rotationLRNode(node);
+      }
+    }
 
-    // if (balanceFactor === BALANCE_FACTOR.UNBALANCED_LEFT) {
-    // }
+    if (balanceFactor === BALANCE_FACTOR.UNBALANCED_LEFT && node.left) {
+      const compareSta = compareFn(key, node.left.value);
+      if (compareSta === COMPARE_STA.LESS_THEN) {
+        node = this.rotationLLNode(node);
+      } else {
+        return this.rotationRLNode(node);
+      }
+    }
+
     return res;
   }
 
