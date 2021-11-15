@@ -16,30 +16,64 @@ export default class AVLTree<T> extends BinarySearchTree<T> {
     }
   }
 
-  insertNode(node: TreeNode<T>, key: T) {
+  protected insertNode(node: TreeNode<T>, key: T) {
     const { compareFn } = this.options;
-    const res = super.insertNode(node, key);
-    if (res && compareFn(node.value, res.value) === 0) {
+    node = super.insertNode(node, key);
+    if (node && compareFn(node.value, node.value) === 0) {
       // 已经有相同的值
       return node;
     }
-    // TODO
-    // const balanceFactor = this.getNodeBalanceFactor(node);
-    // if (balanceFactor === BALANCE_FACTOR.UNBALANCED_RIGHT && node.right) {
-    //   const compareSta = compareFn(key, node.right.value);
-    //   if (compareSta === COMPARE_STA.BIGGER_THEN) {
-    //     node = this.rotationRRNode(node);
-    //   } else {
-    //     node = this.rotationLRNode(node);
-    //   }
-    // }
+    const balanceFactor = this.getNodeBalanceFactor(node);
+    if (balanceFactor === BALANCE_FACTOR.UNBALANCED_RIGHT && node.right) {
+      const compareSta = compareFn(key, node.right.value);
+      if (compareSta === COMPARE_STA.BIGGER_THEN) {
+        node = this.rotationRRNode(node);
+      } else {
+        return this.rotationLRNode(node);
+      }
+    }
 
-    // if (balanceFactor === BALANCE_FACTOR.UNBALANCED_LEFT) {
-    // }
-    return res;
+    if (balanceFactor === BALANCE_FACTOR.UNBALANCED_LEFT && node.left) {
+      const compareSta = compareFn(key, node.left.value);
+      if (compareSta === COMPARE_STA.LESS_THEN) {
+        node = this.rotationLLNode(node);
+      } else {
+        return this.rotationRLNode(node);
+      }
+    }
+
+    return node;
   }
 
-  // removeNode() {}
+  remove(key: T) {
+    this.root = this.removeNode(this.root, key);
+  }
+  protected removeNode(node: TreeNode<T> | null, key: T) {
+    node = super.removeNode(node, key);
+    if (node === null) {
+      return node;
+    }
+    const { compareFn } = this.options;
+    const balanceFactor = this.getNodeBalanceFactor(node);
+    if (balanceFactor === BALANCE_FACTOR.UNBALANCED_RIGHT && node.right) {
+      const compareSta = compareFn(key, node.right.value);
+      if (compareSta === COMPARE_STA.BIGGER_THEN) {
+        node = this.rotationRRNode(node);
+      } else {
+        return this.rotationLRNode(node);
+      }
+    }
+
+    if (balanceFactor === BALANCE_FACTOR.UNBALANCED_LEFT && node.left) {
+      const compareSta = compareFn(key, node.left.value);
+      if (compareSta === COMPARE_STA.LESS_THEN) {
+        node = this.rotationLLNode(node);
+      } else {
+        return this.rotationRLNode(node);
+      }
+    }
+    return node;
+  }
 
   /**
    * LL（left left 不平衡） 向右单旋
