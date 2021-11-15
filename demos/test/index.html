@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" onload="console.log(new Date())" href="./index.css">
+</head>
+
+<body>
+  <div id="sel" class="test-div">sel</div>
+  <script>
+    const sel = document.getElementById('sel');
+    console.log(window.getComputedStyle(sel, null).backgroundColor);
+  </script>
+</body>
+
+</html>
