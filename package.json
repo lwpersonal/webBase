@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@sentry/react": "^6.13.2",
-    "@sentry/tracing": "^6.13.2"
+    "@sentry/tracing": "^6.13.2",
+    "axios": "^0.24.0"
   }
 }

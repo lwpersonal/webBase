@@ -14,6 +14,33 @@
   <script>
     const sel = document.getElementById('sel');
     console.log(window.getComputedStyle(sel, null).backgroundColor);
+
+
+    const url =
+      'http://j1.58cdn.com.cn/arthurupload/wuxian/fe/posterfission/testposterPic.png' // 图片的地址
+    var img = new Image()
+    var timestamp = new Date().getTime();
+    img.setAttribute('crossOrigin', 'anonymous');
+    img.src = url + '?' + timestamp;
+    // img.src = url;
+    img.onload = function () {
+      var that = this
+      var quality = 0.5 // 压缩系数，默认是 0.92 范围 0 ～ 1
+      //生成canvas
+      var canvas = document.createElement('canvas')
+      var ctx = canvas.getContext('2d')
+      var w = that.width,
+        h = that.height
+      var anw = document.createAttribute("width")
+      anw.nodeValue = w
+      var anh = document.createAttribute("height")
+      anh.nodeValue = h
+      canvas.setAttributeNode(anw)
+      canvas.setAttributeNode(anh)
+      ctx.drawImage(that, 0, 0, w, h)
+
+      var base64 = canvas.toDataURL('image/jpeg', quality)
+    }
   </script>
 </body>
 
