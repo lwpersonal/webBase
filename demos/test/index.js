@@ -1,16 +1,34 @@
-const axios = require('axios');
+var Koa = require('koa');
+var Router = require('koa-router');
 
-const url = 'http://10.167.95.19:8001/api/extra/fc/getReportData';
-// const url = 'http://beidou.58corp.com/api/extra/fc/getReportData';
+var app = new Koa();
+var router = new Router();
 
-axios
-  .post(url, {
-    projectId: 195,
-    token: 'qnjsAYAu7oJAdbC17R26eSfZUk1xl0et',
-  })
-  .then(res => {
-    console.log(res.data);
-  })
-  .catch(error => {
-    console.error(error);
-  });
+app.use((ctx, next) => {
+  ctx.set('Access-Control-Allow-Origin', '*');
+  ctx.set('Access-Control-Allow-Headers', 'Content-Type');
+  if (ctx.request.method === 'OPTIONS') {
+    ctx.body = {
+      code: 200,
+    };
+  } else {
+    next();
+  }
+});
+
+router.get('/api/test', (ctx, next) => {
+  console.log('请求成功');
+  ctx.set('Access-Control-Allow-Origin', '*');
+  // ctx.set('Access-Control-Allow-Method', 'GET,HEAD,POST');
+  ctx.set('Access-Control-Allow-Headers', 'Content-Type');
+  ctx.body = {
+    code: 200,
+    message: 'success',
+  };
+});
+
+//使用路由中间件
+app.use(router.routes()).use(router.allowedMethods());
+app.listen(3000, () => {
+  console.log('启动成功！');
+});
