@@ -12,6 +12,7 @@ queue.process(async (job, done) => {
   log(`开始处理 job：${job.id}`);
   await delayFn(3000);
   log(`处理完成：${job.id}`);
+  done.process(50);
   done();
 });
 
