@@ -1,3 +1,17 @@
-import { consoleStr } from './utils';
+export class Publisher {
+  constructor() {
+    this.state = {};
+    
+  }
+}
 
-export default { consoleStr };
+
+function Publisher() {
+  const state = {};
+  const publishers = {};
+
+  return {
+    state,
+    publishers
+  }
+}
