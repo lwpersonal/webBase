@@ -1,13 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite App</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/src/favicon.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite App</title>
+</head>
+<script>
+  !(function (c, i, e, b) {
+    var h = i.createElement("script");
+    var f = i.getElementsByTagName("script")[0];
+    h.type = "text/javascript";
+    h.crossorigin = true;
+    h.onload = function () {
+      try {
+        c[b] || (c[b] = new c.wpkReporter({
+          bid: '98rzpqdd-eddz1x28',
+          spa: true,
+          plugins: []
+        }));
+        c[b].installAll();
+
+
+        console.log('__wpk: ', c[b]);
+
+        c[b].report({
+          category: 100, // 必填创建自定义监控项时自动生成
+          msg: 'hello world',
+          c1: 'xx' // 自定义字段，支持c1~c5共5个字段
+        })
+
+        setInterval(() => {
+          throw new Error(`error: ${new Date().getTime()}`)
+        }, 30000)
+
+      } catch (e) {
+        console.error('init wpkReporter fail', e);
+        throw new Error();
+      }
+    };
+    f.parentNode.insertBefore(h, f);
+    h.src = e
+  })(window, document, "https://g.alicdn.com/woodpeckerx/jssdk??wpkReporter.js", "__wpk");
+</script>
+
+<body>
+  <div id="root"></div>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
 </html>

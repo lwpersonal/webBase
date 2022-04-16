@@ -5,6 +5,7 @@
 'use strict';
 
 const _ = require('lodash');
+const Redis = require('ioredis');
 
 const scripts = {
   isJobInList(client, listKey, jobId) {
@@ -37,6 +38,9 @@ const scripts = {
       opts.lifo ? 'RPUSH' : 'LPUSH',
       queue.token
     ];
+    // console.log(client instanceof Redis);
+    // console.log(client, client.addJob);
+    // console.log('debug log: ', args);
     keys = keys.concat(args);
     return client.addJob(keys);
   },
@@ -326,17 +330,13 @@ const scripts = {
     return allRemoved;
   },
 
-  extendLock(
-    queue,
-    jobId,
-    duration,
-  ) {
+  extendLock(queue, jobId, duration) {
     return queue.client.extendLock([
       queue.toKey(jobId) + ':lock',
       queue.keys.stalled,
       queue.token,
       duration,
-      jobId,
+      jobId
     ]);
   },
 

@@ -6,41 +6,82 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
-  <link rel="stylesheet" onload="console.log(new Date())" href="./index.css">
+  <link rel="stylesheet" href="./index.css">
 </head>
 
 <body>
   <div id="sel" class="test-div">sel</div>
+
   <script>
-    const sel = document.getElementById('sel');
-    console.log(window.getComputedStyle(sel, null).backgroundColor);
+    fetch('http://beidou.58corp.com/api/extra/common/getReportData?startTime=2021-12-25&endTime=2021-12-26&platform=H5', {
+        method: 'GET',
+        headers: {
+          // 'Content-Type': 'application/json',
+          'beidou-extra-token': 'RNwRRMgxMLVEQkdOIbgmEPQh5DK2Uuvm'
+        }
+      })
+      .then(res => console.log('suc: ', res))
+      .catch(err => console.warn(err));
+  </script>
 
+  <!-- <script>
+    class P {
+      list = [];
+      constructor() {
+        setTimeout(() => {
 
-    const url =
-      'http://j1.58cdn.com.cn/arthurupload/wuxian/fe/posterfission/testposterPic.png' // 图片的地址
-    var img = new Image()
-    var timestamp = new Date().getTime();
-    img.setAttribute('crossOrigin', 'anonymous');
-    img.src = url + '?' + timestamp;
-    // img.src = url;
-    img.onload = function () {
-      var that = this
-      var quality = 0.5 // 压缩系数，默认是 0.92 范围 0 ～ 1
-      //生成canvas
-      var canvas = document.createElement('canvas')
-      var ctx = canvas.getContext('2d')
-      var w = that.width,
-        h = that.height
-      var anw = document.createAttribute("width")
-      anw.nodeValue = w
-      var anh = document.createAttribute("height")
-      anh.nodeValue = h
-      canvas.setAttributeNode(anw)
-      canvas.setAttributeNode(anh)
-      ctx.drawImage(that, 0, 0, w, h)
+          this.next();
+        }, 0)
+      }
+      next() {
+        const itemFn = this.list.shift();
+        itemFn && itemFn();
+      }
+      sleep(delay) {
+        this.list.push(() => setTimeout(() => {
+          console.log(`sleep ${delay}s`)
+          this.next();
+        }, delay));
 
-      var base64 = canvas.toDataURL('image/jpeg', quality)
+        return this;
+      }
+      eat(food) {
+        this.list.push(() => setTimeout(() => {
+          console.log(`eat ${food}`);
+          this.next();
+        }, 0));
+        return this;
+      }
     }
+    const a = new P();
+    a.sleep(1000).eat('1').sleep(2000).eat('2').eat('3')
+  </script> -->
+  <script>
+    class Person {
+      p = Promise.resolve();
+
+      sleep(timeout) {
+        this.p = this.p.then(
+          () =>
+          new Promise((resolve) => {
+            setTimeout(() => {
+              console.log('sleep ', timeout)
+              resolve();
+            }, timeout * 1000);
+          })
+        );
+        return this;
+      }
+
+      eat(str) {
+        this.p.then(() => {
+          console.log(str);
+        });
+        return this;
+      }
+    }
+
+    // new Person().sleep(3).sleep(5).eat('1').sleep(1).eat('2').sleep(5).eat('3');
   </script>
 </body>
 

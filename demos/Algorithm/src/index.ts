@@ -255,18 +255,7 @@ const px_fn_jdxz = arr => {
 
 // 快排
 function px_fn_k(arr) {
-  const len = arr.length;
-  if (len <= 1) {
-    return arr;
-  }
-  const posit = Math.floor(len / 2);
-  const val = arr[posit];
-  for (let i = 0; i < len; i++) {
-    if (arr[i] <= val) {
-    }
-    console.log(arr, i);
-  }
-  return arr;
+
 }
 // console.log(px_fn_k([6, 4, 1]));
 const px_fn_k2 = arr => {
