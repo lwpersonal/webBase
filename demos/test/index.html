@@ -9,80 +9,16 @@
   <link rel="stylesheet" href="./index.css">
 </head>
 
+<div style="height: 1000px;">
+</div>
+
 <body>
-  <div id="sel" class="test-div">sel</div>
-
-  <script>
-    fetch('http://beidou.58corp.com/api/extra/common/getReportData?startTime=2021-12-25&endTime=2021-12-26&platform=H5', {
-        method: 'GET',
-        headers: {
-          // 'Content-Type': 'application/json',
-          'beidou-extra-token': 'RNwRRMgxMLVEQkdOIbgmEPQh5DK2Uuvm'
-        }
-      })
-      .then(res => console.log('suc: ', res))
-      .catch(err => console.warn(err));
-  </script>
-
-  <!-- <script>
-    class P {
-      list = [];
-      constructor() {
-        setTimeout(() => {
-
-          this.next();
-        }, 0)
-      }
-      next() {
-        const itemFn = this.list.shift();
-        itemFn && itemFn();
-      }
-      sleep(delay) {
-        this.list.push(() => setTimeout(() => {
-          console.log(`sleep ${delay}s`)
-          this.next();
-        }, delay));
-
-        return this;
-      }
-      eat(food) {
-        this.list.push(() => setTimeout(() => {
-          console.log(`eat ${food}`);
-          this.next();
-        }, 0));
-        return this;
-      }
-    }
-    const a = new P();
-    a.sleep(1000).eat('1').sleep(2000).eat('2').eat('3')
-  </script> -->
-  <script>
-    class Person {
-      p = Promise.resolve();
-
-      sleep(timeout) {
-        this.p = this.p.then(
-          () =>
-          new Promise((resolve) => {
-            setTimeout(() => {
-              console.log('sleep ', timeout)
-              resolve();
-            }, timeout * 1000);
-          })
-        );
-        return this;
-      }
-
-      eat(str) {
-        this.p.then(() => {
-          console.log(str);
-        });
-        return this;
-      }
-    }
-
-    // new Person().sleep(3).sleep(5).eat('1').sleep(1).eat('2').sleep(5).eat('3');
-  </script>
+  <div id="sel" class="test-div"></div>
+  <!-- <script src="./index.js"></script> -->
+  
+  <script src="./licode.js"></script>
+  
+  <!-- <script src="./async.js"></script> -->
 </body>
 
 </html>
