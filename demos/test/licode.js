@@ -33,19 +33,7 @@ const getTreeDeep = root => {
 
 // NOTE ********* code *********
 
-// var change = function (amount, coins) {
-//   const cache = Array(amount + 1).fill(0);
-//   cache[0] = 1;
-
-//   coins.forEach(coin => {
-//     for (let i = coin; i <= amount; i++) {
-//       cache[i] += cache[i - coin];
-//     }
-//   });
-//   return cache[amount];
-// };
-// console.log(change(3, [1, 2, 5]));
-
+// 银币组合
 function c_fn(coins, num) {
   const cache = Array(num + 1).fill(0);
   cache[0] = 1;
@@ -59,6 +47,7 @@ function c_fn(coins, num) {
 }
 // console.log(c_fn([5, 1, 2], 8));
 
+// 背包最大价值
 function bb(list, w) {
   const cache = [];
 
@@ -85,14 +74,103 @@ function bb(list, w) {
 
   return dp(w);
 }
+// console.log(
+//   bb(
+//     [
+//       [1, 2],
+//       [3, 5],
+//       [9, 20],
+//     ],
+//     10
+//   )
+// );
+
+// 岛屿问题，并查集
+class UFTree {
+  constructor() {
+    this.roots = [];
+    this.count = 0;
+  }
+
+  initUF(n) {
+    this.roots = [...Array(n).keys()];
+    this.count = n;
+  }
+
+  find(x) {
+    if (this.roots[x] != x) {
+      this.roots[x] = this.find(this.roots[x]);
+    }
+    return this.roots[x];
+  }
+
+  connected(x, y) {
+    const rootX = this.find(x);
+    const rootY = this.find(y);
+    return rootX === rootY;
+  }
+
+  union(x, y) {
+    const rootX = this.find(x);
+    const rootY = this.find(y);
+    if (rootX === rootY) {
+      return;
+    }
+    this.roots[rootX] = rootY;
+    this.count--;
+  }
+}
+
+function numIsLands(grid) {
+  if (!grid.length || !grid[0].length) {
+    return 0;
+  }
+  const num = grid.length * grid[0].length;
+  const uf = new UFTree();
+  uf.initUF(num);
+}
+
+// function fn(r, c, grid) {
+//   // console.log(r, c);
+//   if (r < 0 || c < 0 || r >= grid.length || c >= grid[r].length) {
+//     return;
+//   }
+//   if (grid[r][c] !== '1') {
+//     return;
+//   }
+//   // 改写标识，防止重复遍历
+//   grid[r][c] = '2';
+//   // 上
+//   fn(r - 1, c, grid);
+//   // 下
+//   fn(r + 1, c, grid);
+//   // 左
+//   fn(r, c - 1, grid);
+//   // 右
+//   fn(r, c + 1, grid);
+// }
+
+// function UF(grid) {
+//   let res = 0;
+
+//   for (let r = 0; r < grid.length; r++) {
+//     for (let c = 0; c < grid[r].length; c++) {
+//       if (grid[r][c] === '1') {
+//         fn(r, c, grid);
+//         res++;
+
+//         console.log(grid);
+//       }
+//     }
+//   }
+//   return res;
+// }
 
 console.log(
-  bb(
-    [
-      [1, 2],
-      [3, 5],
-      [9, 20],
-    ],
-    10
-  )
+  UF([
+    ['1', '1', '0', '0', '0'],
+    ['1', '1', '0', '0', '0'],
+    ['0', '0', '1', '0', '0'],
+    ['0', '0', '0', '1', '1'],
+  ])
 );
