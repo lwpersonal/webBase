@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "importHelpers": true,
+    "useDefineForClassFields": true,
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
+    "allowJs": false,
+    "skipLibCheck": false,
+    "esModuleInterop": false,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "declaration": true,
+    "outDir": "./dist",
+    "emitDeclarationOnly": true,
+    "sourceMap": false,
+    "strictNullChecks": true,
+    "jsx": "react-jsx"
+  },
+  "include": ["mock/**/*", "redux/**/*", "config/**/*", "typings.d.ts"],
+  "exclude": [
+    "node_modules",
+    "lib",
+    "dist",
+    "typings",
+    "**/__test__",
+    "docs",
+    "tests"
+  ]
+}

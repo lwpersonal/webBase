@@ -28,20 +28,23 @@ export default class ClassCom extends React.Component {
 
   handlerClick = () => {
     // debugger;
-    console.log(1111);
-    this.setState(() => ({ count: this.state.count + 1 }));
+    this.setState({ count: this.state.count + 1 });
     console.log(this.state.count);
 
     setTimeout(() => {
-      console.log(333);
       console.log(this.state.count);
-      this.setState({ count: this.state.count + 3 });
-      this.setState({ count: this.state.count + 4 });
+      this.setState(() => {
+        console.log('+3');
+        return { count: this.state.count + 3 };
+      });
+      this.setState(() => {
+        console.log('+4');
+        return { count: this.state.count + 4 };
+      });
       console.log(this.state.count);
       console.log('---------');
     }, 0);
 
-    console.log(2222);
     this.setState({ count: this.state.count + 2 });
     console.log(this.state.count);
   };
@@ -50,8 +53,8 @@ export default class ClassCom extends React.Component {
     return (
       <div>
         <Space>
+          <Button onClick={this.handlerClick}>setState click</Button>
           <p>count: {this.state.count}</p>
-          <Button onClick={this.handlerClick}>useState click</Button>
         </Space>
       </div>
     );

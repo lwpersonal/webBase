@@ -1,5 +1,6 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
+import { Space } from 'antd';
+import ReactDOM from 'react-dom';
 
 import HooksCom from './components/hooksCom';
 import ClassCom from './components/classCom';
@@ -12,14 +13,18 @@ import 'antd/dist/antd.css';
 class App extends React.Component {
   render() {
     return (
-      <div className='wrap'>
-        <HooksCom />
-        <ClassCom />
-
+      <div className="wrap">
+        <Space>
+          function: <HooksCom />
+        </Space>
+        <br />
+        <Space>
+          class: <ClassCom />
+        </Space>
         <InputTest />
       </div>
     );
   }
 }
 
-ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+ReactDOM.render(<App />, document.getElementById('root'));
