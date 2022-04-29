@@ -21,6 +21,7 @@ export default function HooksCom() {
     setCount(count + 2);
     console.log(count);
   };
+  console.log('hooks render');
   return (
     <div>
       <Space>

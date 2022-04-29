@@ -37,6 +37,7 @@ export default class ClassCom extends React.Component {
   };
 
   render() {
+    console.log('class render');
     return (
       <div>
         <Space>
