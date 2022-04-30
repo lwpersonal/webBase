@@ -33,19 +33,7 @@ const getTreeDeep = root => {
 
 // NOTE ********* code *********
 
-// var change = function (amount, coins) {
-//   const cache = Array(amount + 1).fill(0);
-//   cache[0] = 1;
-
-//   coins.forEach(coin => {
-//     for (let i = coin; i <= amount; i++) {
-//       cache[i] += cache[i - coin];
-//     }
-//   });
-//   return cache[amount];
-// };
-// console.log(change(3, [1, 2, 5]));
-
+// 银币组合
 function c_fn(coins, num) {
   const cache = Array(num + 1).fill(0);
   cache[0] = 1;
@@ -59,6 +47,7 @@ function c_fn(coins, num) {
 }
 // console.log(c_fn([5, 1, 2], 8));
 
+// 背包最大价值
 function bb(list, w) {
   const cache = [];
 
@@ -85,6 +74,17 @@ function bb(list, w) {
 
   return dp(w);
 }
+// console.log(
+//   bb(
+//     [
+//       [1, 2],
+//       [3, 5],
+//       [9, 20],
+//     ],
+//     10
+//   )
+// );
+
 
 console.log(
   bb(
@@ -97,23 +97,3 @@ console.log(
   )
 );
 
-
-let max = 0;
-    function fn(root) {
-        if (!root) {
-            return 0;
-        }
-        if (!root.left && !root.right) {
-            return 0;
-        }
-        let depth = getDepth(root.left) + getDepth(root.right);
-        // console.log(depth);
-        depth > max && (max = depth);
-        fn(root.left);
-        fn(root.right);
-        // return depth;
-    }
-
-    fn(root);
-    // console.log(max);
-    return max;
