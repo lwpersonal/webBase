@@ -96,3 +96,24 @@ console.log(
     10
   )
 );
+
+
+let max = 0;
+    function fn(root) {
+        if (!root) {
+            return 0;
+        }
+        if (!root.left && !root.right) {
+            return 0;
+        }
+        let depth = getDepth(root.left) + getDepth(root.right);
+        // console.log(depth);
+        depth > max && (max = depth);
+        fn(root.left);
+        fn(root.right);
+        // return depth;
+    }
+
+    fn(root);
+    // console.log(max);
+    return max;
