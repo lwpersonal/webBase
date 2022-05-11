@@ -1,3 +1,4 @@
+console.log('111')
 const c2 = require('./2.js');
 
 console.log('c2: ', c2);
