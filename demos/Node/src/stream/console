@@ -1,0 +1,9 @@
+const util = require('util');
+let print = (...args) => process.stdout.write(`${util.format.apply(null, args)}\n`);
+
+print('console.log');
+
+
+console.log(this);
+console.log.bind(console)(this);
+console.log.bind(console)(console);
