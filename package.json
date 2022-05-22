@@ -13,7 +13,8 @@
     ]
   },
   "devDependencies": {
-    "lerna": "^4.0.0"
+    "lerna": "^4.0.0",
+    "prettier": "^2.6.2"
   },
   "dependencies": {
     "@sentry/react": "^6.13.2",
