@@ -14,7 +14,7 @@ const fn_1 = (num_1, num_2, n) => {
   if (n === 0) {
     return console.log(
       'res: ',
-      `${rabbat}只大兔子，${youngRabbat}只小兔子，共${all}只兔子！`
+      `${rabbat}只大兔子，${youngRabbat}只小兔子，共${all}只兔子！`,
     );
   } else {
     return fn_1(rabbat + youngRabbat, rabbat, n - 1);
@@ -599,5 +599,86 @@ class Client {
     return this;
   }
 }
-const client = new Client({ name: '小明', age: 18 });
-client.say('hello').eat('apple').sleep(2).eat('banner');
+// const client = new Client({ name: '小明', age: 18 });
+// client.say('hello').eat('apple').sleep(2).eat('banner');
+
+class DelayFn {
+  client = Promise.resolve();
+  constructor() {}
+
+  eat(food: string) {
+    this.client = this.client.then(() => {
+      console.log(`eat food ${food}`);
+    });
+    return this;
+  }
+
+  sleep(delay: number) {
+    this.client = this.client.then(() => {
+      return new Promise(r => {
+        setTimeout(() => {
+          console.log(`sleep ${delay}`);
+          r(undefined);
+        }, delay);
+      });
+    });
+    return this;
+  }
+}
+// const client = new DelayFn();
+// client.eat('苹果').sleep(1000).eat('大米');
+
+/**
+ * 防抖
+ */
+function fd(cb, delay) {
+  let timer = null;
+
+  return () => {
+    if (timer) {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        cb();
+        timer = null;
+      }, delay);
+    } else {
+      // cb();
+      timer = setTimeout(() => cb(), delay);
+    }
+  };
+}
+const fn11 = fd(() => console.log('11111'), 3000);
+// window.onclick = fn11;
+
+/**
+ * 节流函数
+ */
+// function jl(cb, delay) {
+//   let timer = null;
+
+//   return () => {
+//     if (!timer) {
+//       timer = setTimeout(() => {
+//         cb();
+//         timer = null;
+//       }, delay);
+//     }
+//   };
+// }
+// const fn22 = jl(() => console.log('11111'), 1000);
+// window.onclick = fn22;
+
+function jl(cb, delay) {
+  let timer = 0;
+
+  return () => {
+    const t = new Date().getTime();
+
+    if (t - timer >= delay) {
+      timer = t;
+      cb();
+    }
+  };
+}
+const fn22 = jl(() => console.log('11111'), 1000);
+window.onclick = fn22;
