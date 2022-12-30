@@ -1,3 +1,20 @@
 .wrap {
   padding: 20px;
+
+  .components-container {
+    .components-content {
+      margin: 15px 0 0;
+      display: flex;
+
+      .components-content-card {
+        flex: 1;
+        &:first-child {
+          margin-right: 8px;
+        }
+        &:last-child {
+          margin-left: 8px;
+        }
+      }
+    }
+  }
 }

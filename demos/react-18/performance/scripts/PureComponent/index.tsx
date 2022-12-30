@@ -1,11 +1,9 @@
 import React from 'react';
+import type { TCommonProps } from '../../interface';
 
-interface TProps {
-  name: string;
-}
-
-export default class PureComponent extends React.Component<TProps> {
+export default class PureComponent extends React.Component<TCommonProps> {
   shouldComponentUpdate(nextProps) {
+    console.log(this.props.name, nextProps.name);
     if (this.props.name === nextProps.name) {
       return false;
     }
@@ -13,11 +11,16 @@ export default class PureComponent extends React.Component<TProps> {
   }
 
   componentDidMount() {
-    const { name } = this.props;
-    console.log(`render ${name}`);
+    const { name, mark } = this.props;
+    console.log(`「${mark}」componentDidMount ${name}`);
   }
   render() {
-    const { name } = this.props;
-    return <div>{name}</div>;
+    const { name, mark } = this.props;
+    console.log(`「${mark}」render ${name}`);
+    return (
+      <div>
+        「{mark}」{name}
+      </div>
+    );
   }
 }

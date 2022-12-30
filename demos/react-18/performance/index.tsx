@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { Card, Empty, Button, Select, Space } from 'antd';
 import { SCRIPT_LIST } from './const';
@@ -12,17 +12,28 @@ function ComponentsTabs() {
   const [activeKey, setActiveKey] = useState(defaultKey);
   const [renderData, setRenderData] = useState({
     name: defaultKey,
+    extra: new Date().getTime(),
   });
   const activeConfigItem = SCRIPT_LIST.find(item => item.label === activeKey);
+  const commonProps = {
+    name: renderData?.name,
+  };
   const onChange = value => {
     setActiveKey(value);
     setRenderData(pre => ({ ...pre, name: value }));
   };
 
-  const onChangeActiveProps = () => {
+  const onChangeActivePropsName = () => {
     setRenderData(pre => ({
       ...pre,
       name: `${pre.name.split('_')[0]}_${new Date().getTime()}`,
+    }));
+  };
+
+  const onChangeActivePropsExtra = () => {
+    setRenderData(pre => ({
+      ...pre,
+      extra: new Date().getTime(),
     }));
   };
 
@@ -37,25 +48,48 @@ function ComponentsTabs() {
             label: item.label,
             value: item.label,
           }))}
+          showSearch
           onChange={onChange}
           value={activeKey}
         />
       }
     >
       {activeConfigItem?.el ? (
-        <div>
+        <div className="components-container">
           <Space>
-            <Button onClick={onChangeActiveProps}>
+            <Button type="primary" onClick={onChangeActivePropsName}>
               change active props.name
             </Button>
-            <Button onClick={onChangeActiveProps}>
-              change !active props.name
+            <Button type="primary" onClick={onChangeActivePropsExtra}>
+              change not active props.name
+            </Button>
+            <Button type="primary" onClick={() => window.location.reload()}>
+              reload
             </Button>
           </Space>
-          <div style={{ margin: '15px 0 0' }}></div>
-          {React.createElement(activeConfigItem.el, {
-            name: renderData?.name,
-          })}
+          <div className="components-content">
+            <Card
+              size="small"
+              className="components-content-card"
+              title="实验组"
+            >
+              {React.createElement(activeConfigItem.el, {
+                ...commonProps,
+                mark: '1', // 实验组
+              })}
+            </Card>
+
+            <Card
+              size="small"
+              className="components-content-card"
+              title="对照组"
+            >
+              {React.createElement(activeConfigItem.contrast, {
+                ...commonProps,
+                mark: '2', // 对照组
+              })}
+            </Card>
+          </div>
         </div>
       ) : (
         <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
