@@ -169,7 +169,7 @@ function ComponentsTabs() {
       props: renderData,
     },
     {
-      label: 'immutable',
+      label: 'Immutable',
       el: Immutable,
       btnIndex: [6, 7, 5],
       props: {
