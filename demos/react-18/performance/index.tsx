@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import ReactDOM from 'react-dom/client';
 import { Card, Empty, Button, Select, Space } from 'antd';
 import { SCRIPT_LIST } from './const';
+import type { TRenderData } from './interface';
 
 import 'antd/dist/antd.css';
 import './index.less';
@@ -10,14 +11,14 @@ const defaultKey = 'ShouldComponentUpdate';
 
 function ComponentsTabs() {
   const [activeKey, setActiveKey] = useState(defaultKey);
-  const [renderData, setRenderData] = useState({
+  const [renderData, setRenderData] = useState<TRenderData>({
     name: defaultKey,
     extra: new Date().getTime(),
+    other: {
+      count: 0,
+    },
   });
   const activeConfigItem = SCRIPT_LIST.find(item => item.label === activeKey);
-  const commonProps = {
-    name: renderData?.name,
-  };
   const onChange = value => {
     setActiveKey(value);
     setRenderData(pre => ({ ...pre, name: value }));
@@ -35,6 +36,24 @@ function ComponentsTabs() {
       ...pre,
       extra: new Date().getTime(),
     }));
+  };
+
+  const onChangeActivePropsOther = () => {
+    setRenderData(pre => ({
+      ...pre,
+      other: { count: pre.other.count + 1 },
+    }));
+  };
+
+  const onChangeActivePropsOtherCount = () => {
+    setRenderData(pre => {
+      const other = pre.other;
+      other.count += 1;
+      return {
+        ...pre,
+        other,
+      };
+    });
   };
 
   return (
@@ -61,8 +80,17 @@ function ComponentsTabs() {
               change active props.name
             </Button>
             <Button type="primary" onClick={onChangeActivePropsExtra}>
-              change not active props.name
+              change active props.extra
             </Button>
+
+            <Button type="primary" onClick={onChangeActivePropsOther}>
+              change active props.other
+            </Button>
+
+            <Button type="primary" onClick={onChangeActivePropsOtherCount}>
+              change active props.other.count
+            </Button>
+
             <Button type="primary" onClick={() => window.location.reload()}>
               reload
             </Button>
@@ -74,7 +102,7 @@ function ComponentsTabs() {
               title="实验组"
             >
               {React.createElement(activeConfigItem.el, {
-                ...commonProps,
+                ...renderData,
                 mark: '1', // 实验组
               })}
             </Card>
@@ -85,7 +113,7 @@ function ComponentsTabs() {
               title="对照组"
             >
               {React.createElement(activeConfigItem.contrast, {
-                ...commonProps,
+                ...renderData,
                 mark: '2', // 对照组
               })}
             </Card>

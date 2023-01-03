@@ -2,16 +2,17 @@ import ShouldComponentUpdate from './scripts/shouldComponentUpdate';
 import ShouldComponentUpdateContrast from './scripts/shouldComponentUpdate/contrast';
 
 import PureComponent from './scripts/PureComponent';
+import PureComponentContrast from './scripts/PureComponent/contrast';
 
 export const SCRIPT_LIST = [
   {
     label: 'ShouldComponentUpdate',
     el: ShouldComponentUpdate, // 实验组
-    contrast: ShouldComponentUpdateContrast,
+    contrast: ShouldComponentUpdateContrast, // 对照组
   },
   {
     label: 'PureComponent',
-    el: PureComponent, // 对照组
-    contrast: ShouldComponentUpdateContrast,
+    el: PureComponent,
+    contrast: PureComponentContrast,
   },
 ];

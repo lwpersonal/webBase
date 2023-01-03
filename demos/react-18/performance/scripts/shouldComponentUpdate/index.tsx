@@ -4,8 +4,10 @@ import type { TCommonProps } from '../../interface';
 let i = 0;
 export default class ShouldComponentUpdateEL extends React.Component<TCommonProps> {
   shouldComponentUpdate(nextProps) {
-    console.log(this.props.name, nextProps.name);
-    if (this.props.name === nextProps.name) {
+    if (
+      this.props.name === nextProps.name &&
+      this.props.other === nextProps.other
+    ) {
       return false;
     }
     return true;
@@ -25,6 +27,7 @@ export default class ShouldComponentUpdateEL extends React.Component<TCommonProp
           「{mark}」{name}
         </p>
         <p>「render 次数」{i}</p>
+        <p>props: {JSON.stringify(this.props, null, 2)}</p>
       </div>
     );
   }

@@ -1,25 +1,23 @@
 import React from 'react';
 import type { TCommonProps } from '../../interface';
 
-export default class PureComponent extends React.Component<TCommonProps> {
-  shouldComponentUpdate(nextProps) {
-    console.log(this.props.name, nextProps.name);
-    if (this.props.name === nextProps.name) {
-      return false;
-    }
-    return true;
-  }
-
+let i = 0;
+export default class ShouldComponentUpdateEL extends React.PureComponent<TCommonProps> {
   componentDidMount() {
     const { name, mark } = this.props;
     console.log(`「${mark}」componentDidMount ${name}`);
   }
   render() {
+    i++;
     const { name, mark } = this.props;
     console.log(`「${mark}」render ${name}`);
     return (
       <div>
-        「{mark}」{name}
+        <p>
+          「{mark}」{name}
+        </p>
+        <p>「render 次数」{i}</p>
+        <p>props: {JSON.stringify(this.props, null, 2)}</p>
       </div>
     );
   }
