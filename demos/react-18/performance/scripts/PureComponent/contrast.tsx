@@ -2,7 +2,7 @@ import React from 'react';
 import type { TCommonProps } from '../../interface';
 
 let i = 0;
-export default class ShouldComponentUpdateEL extends React.Component<TCommonProps> {
+export default class PureComponentEL extends React.Component<TCommonProps> {
   componentDidMount() {
     const { name, mark } = this.props;
     console.log(`「${mark}」componentDidMount ${name}`);

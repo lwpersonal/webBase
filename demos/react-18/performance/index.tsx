@@ -56,6 +56,10 @@ function ComponentsTabs() {
     });
   };
 
+  const onChangeActiveProps = () => {
+    setRenderData(pre => ({ ...pre }));
+  };
+
   return (
     <Card
       title="React 渲染调试"
@@ -77,18 +81,22 @@ function ComponentsTabs() {
         <div className="components-container">
           <Space>
             <Button type="primary" onClick={onChangeActivePropsName}>
-              change active props.name
+              change props.name
             </Button>
             <Button type="primary" onClick={onChangeActivePropsExtra}>
-              change active props.extra
+              change props.extra
             </Button>
 
             <Button type="primary" onClick={onChangeActivePropsOther}>
-              change active props.other
+              change props.other
             </Button>
 
             <Button type="primary" onClick={onChangeActivePropsOtherCount}>
-              change active props.other.count
+              change props.other.count
+            </Button>
+
+            <Button type="primary" onClick={onChangeActiveProps}>
+              change props
             </Button>
 
             <Button type="primary" onClick={() => window.location.reload()}>

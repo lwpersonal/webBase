@@ -4,6 +4,9 @@ import ShouldComponentUpdateContrast from './scripts/shouldComponentUpdate/contr
 import PureComponent from './scripts/PureComponent';
 import PureComponentContrast from './scripts/PureComponent/contrast';
 
+import Memo from './scripts/memo';
+import MemoContrast from './scripts/memo/contrast';
+
 export const SCRIPT_LIST = [
   {
     label: 'ShouldComponentUpdate',
@@ -14,5 +17,10 @@ export const SCRIPT_LIST = [
     label: 'PureComponent',
     el: PureComponent,
     contrast: PureComponentContrast,
+  },
+  {
+    label: 'Memo',
+    el: Memo,
+    contrast: MemoContrast,
   },
 ];
