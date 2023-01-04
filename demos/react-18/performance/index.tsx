@@ -15,6 +15,9 @@ import MemoContrast from './scripts/memo/contrast';
 
 import Immutable from './scripts/immutable';
 
+import MapKey from './scripts/MapKey';
+import MapKeyContrast from './scripts/MapKey/contrast';
+
 import 'antd/dist/antd.css';
 import './index.less';
 
@@ -36,6 +39,9 @@ function ComponentsTabs() {
       count: 0,
       info: { age: 14 },
     }),
+  });
+  const [list, setList] = useState<Record<string, any[]>>({
+    mapKeys: [],
   });
   const onChange = value => {
     setActiveKey(value);
@@ -144,6 +150,40 @@ function ComponentsTabs() {
     >
       [immutable] change props.other.info.age
     </Button>,
+    // 8
+    <Button
+      type="primary"
+      key="mapKeyAdd"
+      onClick={() =>
+        setList(pre => {
+          const lastIndex = pre.mapKeys.length;
+          return {
+            ...pre,
+            mapKeys: [
+              { id: `${lastIndex}_${new Date().getTime()}`, value: lastIndex },
+              ...pre.mapKeys,
+            ],
+          };
+        })
+      }
+    >
+      [map key] add in first
+    </Button>,
+    // 9
+    <Button
+      type="primary"
+      key="mapKeyDel"
+      onClick={() =>
+        setList(pre => {
+          return {
+            ...pre,
+            mapKeys: pre.mapKeys.slice(1),
+          };
+        })
+      }
+    >
+      [map key] del in first
+    </Button>,
   ];
 
   const SCRIPT_LIST = [
@@ -176,12 +216,21 @@ function ComponentsTabs() {
         ...renderDataImmutable,
       },
     },
+    {
+      label: 'MapKey',
+      el: MapKey,
+      contrast: MapKeyContrast,
+      btnIndex: [8, 9, 5],
+      props: {
+        list: list.mapKeys,
+      },
+    },
   ];
   const activeConfigItem = SCRIPT_LIST.find(item => item.label === activeKey);
 
   return (
     <Card
-      title="React 渲染调试"
+      title="React 测试"
       extra={
         <Select
           style={{ width: 240 }}
