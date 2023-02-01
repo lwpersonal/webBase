@@ -1,4 +1,5 @@
 import React from 'react';
+import { Input } from 'antd';
 import type { TCommonProps } from '../../interface';
 
 const MapKeyEL: React.FC<TCommonProps> = props => {
@@ -7,7 +8,10 @@ const MapKeyEL: React.FC<TCommonProps> = props => {
   return (
     <div>
       {list.map(item => (
-        <p key={item.id}>item - {item.id}</p>
+        <div key={item.id}>
+          <p key={item.id}>item - {item.id}</p>
+          <Input />
+        </div>
       ))}
     </div>
   );

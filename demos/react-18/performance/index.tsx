@@ -184,6 +184,22 @@ function ComponentsTabs() {
     >
       [map key] del in first
     </Button>,
+    // 10
+    <Button
+      type="primary"
+      key="mapKeyMove"
+      onClick={() =>
+        setList(pre => {
+          const lastIndex = pre.mapKeys.length;
+          return {
+            ...pre,
+            mapKeys: [pre.mapKeys[lastIndex - 1], ...pre.mapKeys.slice(0, -1)],
+          };
+        })
+      }
+    >
+      [map key] move end to start
+    </Button>,
   ];
 
   const SCRIPT_LIST = [
@@ -220,7 +236,7 @@ function ComponentsTabs() {
       label: 'MapKey',
       el: MapKey,
       contrast: MapKeyContrast,
-      btnIndex: [8, 9, 5],
+      btnIndex: [8, 9, 10, 5],
       props: {
         list: list.mapKeys,
       },
