@@ -58,14 +58,7 @@ function jx() {
 }
 
 function curry(fn) {
-  function handler(...args) {
-    if (args.length >= fn.length) {
-      return fn.call(this, ...args);
-    } else {
-      return handler.bind(this, ...args);
-    }
-  }
-  return handler;
+
 }
 
 function main() {

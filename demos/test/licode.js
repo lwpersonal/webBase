@@ -85,7 +85,6 @@ function bb(list, w) {
 //   )
 // );
 
-
 console.log(
   bb(
     [
