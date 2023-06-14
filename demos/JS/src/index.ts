@@ -1,3 +1,10 @@
-import { consoleStr } from './utils';
+import prototypeFn from './list/prototype';
 
-export default { consoleStr };
+window.log = (...args: any[]) => console.log(`[JS test]`, ...args);
+
+function main() {
+  // 原型链
+  prototypeFn();
+}
+
+main();

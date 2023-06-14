@@ -14,7 +14,7 @@ module.exports = {
   ],
   rules: {
     'prettier/prettier': 'warn',
-    'no-console': 'warn',
+    'no-console': 'off',
     // 'no-unused-vars': 'off',
     'no-use-before-define': 'warn',
     '@typescript-eslint/no-unused-vars': ['error', { args: 'after-used' }],
