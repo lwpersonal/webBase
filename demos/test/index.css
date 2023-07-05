@@ -1,3 +1,35 @@
-.test-div {
+.wrap {
+  text-align: center;
+  line-height: 150px;
+}
+
+.box1 {
+  width: 150px;
+  height: 150px;
   background-color: aqua;
+
+  position: relative;
+  /* z-index: auto; */
+  z-index: 0;
+}
+.box2 {
+  width: 150px;
+  height: 150px;
+  background-color: blueviolet;
+  margin: -85px 0 0 50px;
+
+  /* position: relative;
+  z-index: -1; */
+  /* will-change: transform;
+  transform: translate3d(0, 0, 0); */
+}
+.text1 {
+  /* background-color: cadetblue; */
+  /* position: absolute;
+  z-index: 2; */
+}
+.text2 {
+  /* background-color: brown; */
+  /* position: absolute;
+  z-index: 1; */
 }
