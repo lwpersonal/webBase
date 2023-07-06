@@ -1,0 +1,21 @@
+{
+  "name": "babel",
+  "private": true,
+  "npmClient": "yarn",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --max-warnings 0"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.22.6",
+    "@babel/parser": "^7.22.6",
+    "@babel/traverse": "^7.22.6"
+  },
+  "dependencies": {}
+}
