@@ -52,27 +52,28 @@
       // }
       // var bar = new Foo(15, 15);
 
-      window.onerror = (msg, url, lineNum, colNum, err) => {
-        console.log(`错误发生的异常信息（字符串）:${msg}`);
-        console.log(`错误发生的脚本URL（字符串）:${url}`);
-        console.log(`错误发生的行号（数字）:${lineNum}`);
-        console.log(`错误发生的列号（数字）:${colNum}`);
-        console.log(`错误发生的Error对象（错误对象）:${err}`);
-      };
+      // window.onerror = (msg, url, lineNum, colNum, err) => {
+      //   console.log(`错误发生的异常信息（字符串）:${msg}`);
+      //   console.log(`错误发生的脚本URL（字符串）:${url}`);
+      //   console.log(`错误发生的行号（数字）:${lineNum}`);
+      //   console.log(`错误发生的列号（数字）:${colNum}`);
+      //   console.log(`错误发生的Error对象（错误对象）:${err}`);
+      // };
 
       window.onunhandledrejection = function (e) {
         console.log('onunhandledrejection: ', e, e.reason);
+        // e.preventDefault();
       };
       // throw new Error('wjw test onerror');
-      // Promise.resolve(1).then(() => {
-      //   throw new Error('wjw promise test');
-      // });
+      Promise.resolve(1).then(() => {
+        throw new Error('wjw promise test');
+      });
       // setTimeout(() => {
       //   throw new Error('wjw test setTimeout');
       // }, 0);
-      requestAnimationFrame(() => {
-        throw new Error('wjw test requestAnimationFrame');
-      });
+      // requestAnimationFrame(() => {
+      //   throw new Error('wjw test requestAnimationFrame');
+      // });
     </script>
   </body>
 </html>
