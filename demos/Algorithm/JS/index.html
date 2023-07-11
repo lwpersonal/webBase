@@ -14,11 +14,11 @@
       function fn() {
         console.log('111111');
       }
-      // const debounceFn = debounce(fn, 1500);
-      // window.onscroll = debounceFn;
+      const debounceFn = debounce(fn, 1500);
+      window.onscroll = debounceFn;
 
-      const throttleFn = throttle(fn, 1500);
-      window.onscroll = throttleFn;
+      // const throttleFn = throttle(fn, 1500);
+      // window.onscroll = throttleFn;
     </script>
   </body>
 </html>
