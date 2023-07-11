@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div style="height: 1000px; background-color: rgba(0, 255, 255, 0.1)"></div>
+    <script src="./debounce.js"></script>
+    <script src="./throttle.js"></script>
+
+    <script>
+      function fn() {
+        console.log('111111');
+      }
+      // const debounceFn = debounce(fn, 1500);
+      // window.onscroll = debounceFn;
+
+      const throttleFn = throttle(fn, 1500);
+      window.onscroll = throttleFn;
+    </script>
+  </body>
+</html>
