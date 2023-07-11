@@ -19,15 +19,17 @@ export default class ClassCom extends React.Component {
 
     setTimeout(() => {
       console.log(this.state.count);
-      this.setState(() => {
-        console.log('+3');
-        return { count: this.state.count + 3 };
-      });
+      // this.setState(() => {
+      //   console.log('+3');
+      //   return { count: this.state.count + 3 };
+      // });
+      this.setState({ count: this.state.count + 3 });
       console.log(this.state.count);
-      this.setState(() => {
-        console.log('+4');
-        return { count: this.state.count + 4 };
-      });
+      // this.setState(() => {
+      //   console.log('+4');
+      //   return { count: this.state.count + 4 };
+      // });
+      this.setState({ count: this.state.count + 4 });
       console.log(this.state.count);
       console.log('---------');
     }, 0);
